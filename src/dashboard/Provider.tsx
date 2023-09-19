@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
-import { data } from "./sidebar/data";
-import useAuth from "@/hooks/useAuth";
-
+import { signOut, useSession } from "next-auth/react";
+import { socketConfig } from "@/utils/socket";
+import Cookies from "js-cookie";
+import { getToken } from "@/utils/getToken";
 interface DashboardProviderProps {
   children: React.ReactNode;
 }
@@ -20,6 +20,42 @@ const Context = React.createContext<ProviderValues>({});
 export function DashboardProvider({ children }: DashboardProviderProps) {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const router = useRouter();
+  const { data, status } = useSession();
+  const [socket, setSocket] = useState<any>();
+  useEffect(() => {
+    const connectWebSocket = async (data: any) => {
+      try {
+        // Perform asynchronous operations here
+        const token = await getToken(data);
+        const socket = await socketConfig(token);
+        setSocket(socket);
+        socket.connect();
+      } catch (error) {
+        console.error("Error connect websocket:", error);
+      }
+    };
+
+    if (!socket && data) {
+      connectWebSocket(data);
+    }
+
+    return () => {
+      if (socket) socket.disconnect();
+    };
+  }, [data, status]);
+
+  useEffect(() => {
+    function forceLogout(value: any) {
+      signOut({ callbackUrl: "/login" });
+    }
+    if (socket) {
+      socket.on("force-reload", forceLogout);
+    }
+
+    return () => {
+      if (socket) socket.off("force-reload", forceLogout);
+    };
+  }, [socket]);
 
   const toggleSidebar = React.useCallback(() => {
     setSidebarOpen((prevState) => !prevState);

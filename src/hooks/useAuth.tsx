@@ -15,9 +15,6 @@ const useAuth = () => {
     onUnauthenticated() {
       setUrlRedirected(true);
     },
-    // onAuthenticated() {
-    //   setUrlRedirected(false);
-    // },
   });
   return {
     userData: session,

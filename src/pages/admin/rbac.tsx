@@ -20,7 +20,6 @@ const fetcher = (url: string, headers: Record<string, string>) => {
 
 export default function ProjectsPage({ data }: PageProps) {
   const dispatch = useDispatch();
-  dispatch;
   useEffect(() => {
     dispatch(setTokenState(data.token));
   }, []);
@@ -56,7 +55,6 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({
   const token = req.cookies["next-auth.session-token"];
   try {
     const accounts = await getAccount(token as string);
-    console.log(accounts);
     if (accounts) {
       data = await res2json(accounts);
       data.token = token;

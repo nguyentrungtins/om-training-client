@@ -1,5 +1,6 @@
 import { HomeIcon } from "./icons/HomeIcon";
 import { ProjectIcon } from "./icons/ProjectIcon";
+import { SettingsIcon } from "./icons/SettingsIcon";
 
 export const data = [
   {
@@ -12,11 +13,11 @@ export const data = [
     icon: <ProjectIcon />,
     link: "/admin/rbac",
   },
-  // {
-  //   title: "My tasks",
-  //   icon: <TaskIcon />,
-  //   link: "/admin/tasks",
-  // },
+  {
+    title: "RBAC TEST",
+    icon: <SettingsIcon />,
+    link: "/client/rbac",
+  },
   // {
   //   title: "Calendar",
   //   icon: <CalendarIcon />,

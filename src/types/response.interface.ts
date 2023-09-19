@@ -1,4 +1,4 @@
-import { User } from "next-auth";
+import { User } from "./user.interface";
 
 export interface CommonResponse {
   data: User[];

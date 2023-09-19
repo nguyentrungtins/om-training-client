@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TopBar } from "./TopBar";
 import { Overlay } from "./Overlay";
 import { Sidebar } from "./sidebar/Sidebar";
 import { DashboardProvider, useDashboardContext } from "./Provider";
 import useAuth from "@/hooks/useAuth";
+import { useSession } from "next-auth/react";
+import { encode } from "next-auth/jwt";
 
 interface ChildrenProps {
   children: React.ReactNode;
